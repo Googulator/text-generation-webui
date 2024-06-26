@@ -418,8 +418,8 @@ def update_requirements(initial_installation=False, pull=True):
     clear_cache()
 
 
-def launch_webui():
-    run_cmd(f"python server.py {flags}", environment=True)
+def launch_webui(cmd="python server.py "):
+    run_cmd(f"{cmd}{flags}", environment=True)
 
 
 if __name__ == "__main__":
@@ -489,4 +489,8 @@ if __name__ == "__main__":
             os.mkdir(conda_path_bin)
 
         # Launch the webui
-        launch_webui()
+        if flags.startswith("-- "):
+            flags = flags[3:]
+            launch_webui("")
+        else:
+            launch_webui()
