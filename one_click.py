@@ -11,14 +11,14 @@ import sys
 
 # Remove the '# ' from the following lines as needed for your AMD GPU on Linux
 # os.environ["ROCM_PATH"] = '/opt/rocm'
-# os.environ["HSA_OVERRIDE_GFX_VERSION"] = '10.3.0'
-# os.environ["HCC_AMDGPU_TARGET"] = 'gfx1030'
+# os.environ["HSA_OVERRIDE_GFX_VERSION"] = '11.0.0'
+# os.environ["HCC_AMDGPU_TARGET"] = 'gfx1100'
 
 
 # Define the required PyTorch version
-TORCH_VERSION = "2.2.1"
-TORCHVISION_VERSION = "0.17.1"
-TORCHAUDIO_VERSION = "2.2.1"
+TORCH_VERSION = "2.4.0"
+TORCHVISION_VERSION = "0.19.0"
+TORCHAUDIO_VERSION = "2.4.0"
 
 # Environment
 script_dir = os.getcwd()
@@ -117,7 +117,7 @@ def update_pytorch():
     elif is_cuda:
         install_pytorch += "--index-url https://download.pytorch.org/whl/cu121"
     elif is_rocm:
-        install_pytorch += "--index-url https://download.pytorch.org/whl/rocm5.6"
+        install_pytorch += "--index-url https://download.pytorch.org/whl/test/rocm6.1"  # rocm6.1 needs /test for now
     elif is_cpu:
         install_pytorch += "--index-url https://download.pytorch.org/whl/cpu"
     elif is_intel:
@@ -239,7 +239,7 @@ def install_webui():
             "What is your GPU?",
             {
                 'A': 'NVIDIA',
-                'B': 'AMD (Linux/MacOS only. Requires ROCm SDK 5.6 on Linux)',
+                'B': 'AMD (Linux/MacOS only. Requires ROCm SDK 6.1 on Linux)',
                 'C': 'Apple M Series',
                 'D': 'Intel Arc (IPEX)',
                 'N': 'None (I want to run models in CPU mode)'
@@ -294,7 +294,7 @@ def install_webui():
         else:
             install_pytorch += "--index-url https://download.pytorch.org/whl/cu121"
     elif selected_gpu == "AMD":
-        install_pytorch += "--index-url https://download.pytorch.org/whl/rocm5.6"
+        install_pytorch += "--index-url https://download.pytorch.org/whl/test/rocm6.1"  # rocm6.1 needs /test for now
     elif selected_gpu in ["APPLE", "NONE"]:
         install_pytorch += "--index-url https://download.pytorch.org/whl/cpu"
     elif selected_gpu == "INTEL":
